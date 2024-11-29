@@ -7,14 +7,21 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install "Shippori Antique B1"
-      shell: bash
+    - uses: actions/github-script@v7
+      id: font-key
+      with:
+        script: |
+          return core.getInput('font-name', { required: true }).replaceAll(" ", "-").toLowerCase()
+        result-encoding: string
+    - shell: bash
       working-directory: ${{ runner.temp }}
+      env:
+        FONT_KEY: ${{ steps.font-key.outputs.result }}
       run: |
-        wget -O ./shippori-antique-b1.zip https://api.fontsource.org/v1/download/shippori-antique-b1
-        unzip ./shippori-antique-b1.zip -d ./shippori-antique-b1
-        rm ./shippori-antique-b1/ttf/shippori-antique-b1-[0-9]*
-        mv ./shippori-antique-b1/ttf /usr/share/fonts/shippori-antique-b1
+        wget -O ./$FONT_KEY.zip https://api.fontsource.org/v1/download/$FONT_KEY
+        unzip ./$FONT_KEY.zip -d ./$FONT_KEY
+        rm ./$FONT_KEY/ttf/$FONT_KEY-[0-9]*
+        mv ./$FONT_KEY/ttf /usr/share/fonts/$FONT_KEY
         fc-cache -fv
-        rm ./shippori-antique-b1.zip
-        rm -r ./shippori-antique-b1
+        rm ./$FONT_KEY.zip
+        rm -r ./$FONT_KEY
