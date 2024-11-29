@@ -1,0 +1,19 @@
+name: "Install fonts via fontsource"
+
+inputs:
+  font-name:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install "Shippori Antique B1"
+      run: |
+        cd ${{ runner.temp }}
+        wget -O ./shippori-antique-b1.zip https://api.fontsource.org/v1/download/shippori-antique-b1
+        unzip ./shippori-antique-b1.zip -d ./shippori-antique-b1
+        rm ./shippori-antique-b1/ttf/shippori-antique-b1-[0-9]*
+        mv ./shippori-antique-b1/ttf /usr/share/fonts/shippori-antique-b1
+        fc-cache -fv
+        rm ./shippori-antique-b1.zip
+        rm -r ./shippori-antique-b1
