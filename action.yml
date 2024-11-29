@@ -9,9 +9,11 @@ runs:
   steps:
     - uses: actions/github-script@v7
       id: font-key
+      env:
+        FONT_NAME: ${{ inputs.font-name }}
       with:
         script: |
-          return core.getInput('font-name', { required: true }).replaceAll(" ", "-").toLowerCase()
+          return process.env.FONT_NAME.replaceAll(" ", "-").toLowerCase()
         result-encoding: string
     - shell: bash
       working-directory: ${{ runner.temp }}
