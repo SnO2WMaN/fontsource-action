@@ -7,7 +7,7 @@ I mainly used for compiling [Typst](https://typst.app/) document.
 ## Usage
 
 ```yaml
-uses: SnO2WMaN/install-fontsource-action@v0.0.1
+uses: SnO2WMaN/install-fontsource-action@v0.0.2
 with:
   font-name: Shippori Mincho B1
 ```
